@@ -1,0 +1,374 @@
+{
+  "name": "AI Instructional Design Workflow",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "98a05e27-59c7-471e-a257-6928803b6ecf",
+      "name": "When clicking ‘Execute workflow’"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "4f7cceaf-ebb1-4b96-bd4e-e7e4331e24e7",
+              "name": "SMEMeetingNotes",
+              "value": "SLACK TRAINING INITIATIVE - SME MEETING MINUTES Date: July 13, 2026 Attendees: Training Lead, IT Manager, Department Heads, HR Representative Subject: Slack Adoption & Training Program Design  1. SCOPE & CONTENT COVERAGE Core Topics (Must Cover):  What is Slack and why we're adopting it Creating and managing channels (public/private) Posting messages and using threads (to reduce notification overload) Using search functionality effectively Slack workflow automation and reminders Integrations with existing tools (Salesforce, Asana, Google Drive) Best practices for channel naming and organization Mentions, reactions, and collaboration features  Nice-to-Have (Secondary Priority):  Advanced features (Slack Apps, custom workflows) Security and data privacy in Slack Slack Connect for external collaboration   2. TARGET AUDIENCE Primary:  150 employees across 5 departments Mix of technical (IT, Product) and non-technical (Sales, HR, Finance) staff Age range: 25-65 Varying tech comfort levels (some use Teams/Zoom daily, others prefer email)  Secondary:  Department managers (need extra training on moderation/admin) Executive team (executive summary only)   3. USER CONTEXT & WORKFLOW How they'll use Slack:  Daily standup updates in department channels (replace email chains) Project collaboration (instead of scattered email threads) Quick questions and peer-to-peer support (reduce meeting burden) Announcements broadcast to whole organization Customer feedback loops via integrated apps  Current Pain Points:  Email overload (30-50 emails/day per person) Lost information in threads Slow decision-making due to meeting culture Onboarding new employees takes 2 weeks to catch them up  Expected Outcome:  Reduce email volume by 60% Faster communication and decision-making Better knowledge retention (searchable history vs deleted emails)   4. TRAINING MODALITY Format: Multi-modal approach Phase 1 (Week 1):  Live kickoff session (1 hour, all-hands, Q&A) Interactive walkthrough of basic features  Phase 2 (Week 2-3):  Department-specific training (30 mins per team) Tailored to how THEIR department will use Slack (Sales workflows vs HR workflows)  Phase 3 (Ongoing):  Self-paced reference guides (handouts, video tutorials) FAQ/troubleshooting checklist Optional \"office hours\" for advanced features  Delivery Method:  Live virtual sessions (Zoom) Recorded videos for asynchronous viewing Slack help channel with pinned resources PDF job aids for quick reference   5. SUCCESS METRICS We'll measure training effectiveness by:  80%+ of employees logging in within 2 weeks 50%+ reduction in email volume within 30 days New employee onboarding time reduced from 2 weeks to 3 days Employee satisfaction survey (target: 4/5 stars) Support ticket volume (fewer \"how do I?\" questions after training)   6. NEXT STEPS  Finalize training curriculum (this week) Create walkthrough videos (Week of July 20) Schedule live sessions (Week of July 27) Launch training July 28 (Phase 1)   ACTION ITEMS:   Identify 3-5 \"Slack champions\" per department for peer support  Create Slack workspace and test channels  Gather feedback from pilot group (10 early adopters)",
+              "type": "string"
+            },
+            {
+              "id": "5d48a7d5-3366-4e6e-bf77-d621efe14fec",
+              "name": "TechnicalDocumentation",
+              "value": "https://standuply.com/How_to_Use_Slack_Effectively_in_2019_by_Standuply.pdf",
+              "type": "string"
+            },
+            {
+              "id": "8dbb0edf-f5f3-425c-beb5-a0754bace3ba",
+              "name": "TrainingTopic",
+              "value": "Slack Training",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        224,
+        0
+      ],
+      "id": "f7e4c315-20b9-49c7-8bc4-7eab3c2f3c79",
+      "name": "Edit Fields"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-sonnet-4-5-20250929",
+          "mode": "list",
+          "cachedResultName": "claude-sonnet-4-5-20250929"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert instructional designer.\n\nTraining Topic: {{ $('Edit Fields').item.json.TrainingTopic }}\nSME Requirements: {{ $('Edit Fields').item.json.SMEMeetingNotes }}\nDocumentation: {{ $json.output }}\n\nCreate an explanation document - a beginner-friendly overview of {{ $('Edit Fields').item.json.TrainingTopic }}\nInclude key concepts, terminology, real-world use cases.\nFormat: Markdown with headers and bullet points.\nReturn ONLY the markdown content, no JSON."
+            },
+            {}
+          ]
+        },
+        "options": {
+          "maxTokens": 12000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        608,
+        -192
+      ],
+      "id": "cea111a9-ee93-4cef-a186-807f5fc20b94",
+      "name": "Generate Explainer Doc",
+      "credentials": {
+        "anthropicApi": {
+          "id": "RlEDZTsStizRidK4",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-sonnet-4-5-20250929",
+          "mode": "list",
+          "cachedResultName": "claude-sonnet-4-5-20250929"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert instructional designer.\n\nTraining Topic: {{ $('Edit Fields').item.json.TrainingTopic }}\nSME Requirements: {{ $('Edit Fields').item.json.SMEMeetingNotes }}\nDocumentation: {{ $json.output }}\n\nCreate ONLY quiz questions - 8-10 questions with answer key and explanations for {{ $('Edit Fields').item.json.TrainingTopic }}.\nFormat: Markdown.\nReturn ONLY the markdown content, no JSON."
+            },
+            {}
+          ]
+        },
+        "options": {
+          "maxTokens": 12000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        624,
+        272
+      ],
+      "id": "ab0932ec-ca35-41a8-ab51-7913ea55f006",
+      "name": "Generate Quizzes",
+      "credentials": {
+        "anthropicApi": {
+          "id": "RlEDZTsStizRidK4",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "claude-sonnet-4-5-20250929",
+          "mode": "list",
+          "cachedResultName": "claude-sonnet-4-5-20250929"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an expert instructional designer.\n\nTraining Topic: {{ $('Edit Fields').item.json.TrainingTopic }}\nSME Requirements: {{ $('Edit Fields').item.json.SMEMeetingNotes }}\nDocumentation: {{ $json.output }}\n\nCreate ONLY an instruction manual - step-by-step hands-on guide for {{ $('Edit Fields').item.json.TrainingTopic }}.\nFormat: Numbered steps, clear instructions.\nReturn ONLY the markdown content, no JSON."
+            },
+            {}
+          ]
+        },
+        "options": {
+          "maxTokens": 12000
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.anthropic",
+      "typeVersion": 1,
+      "position": [
+        608,
+        48
+      ],
+      "id": "dbe577cc-1c6d-41e7-96cb-47de2efd498f",
+      "name": "Generate Instruction Manual",
+      "credentials": {
+        "anthropicApi": {
+          "id": "RlEDZTsStizRidK4",
+          "name": "Anthropic account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "sowmyanarayananSoma",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "AI-Asissted-Workflow-Outputs",
+          "mode": "list",
+          "cachedResultName": "AI-Asissted-Workflow-Outputs",
+          "cachedResultUrl": "https://github.com/sowmyanarayananSoma/AI-Asissted-Workflow-Outputs"
+        },
+        "filePath": "outputs/Explainer-Doc.md",
+        "fileContent": "={{ $json.content[0].text }}",
+        "commitMessage": "Explanation document added"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        944,
+        -192
+      ],
+      "id": "88ce4e6b-a22f-46ad-9ba1-b9082f5a6dab",
+      "name": "Explainer Doc Publishing",
+      "webhookId": "38e35e59-c18b-434d-ad6b-481f02a19b64",
+      "credentials": {
+        "githubApi": {
+          "id": "URuQMJtxq7LDxoqx",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "sowmyanarayananSoma",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "AI-Asissted-Workflow-Outputs",
+          "mode": "list",
+          "cachedResultName": "AI-Asissted-Workflow-Outputs",
+          "cachedResultUrl": "https://github.com/sowmyanarayananSoma/AI-Asissted-Workflow-Outputs"
+        },
+        "filePath": "outputs/Instruction-Manual.md",
+        "fileContent": "={{ $json.content[0].text }}",
+        "commitMessage": "Explanation document added"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        928,
+        48
+      ],
+      "id": "c80c0239-67f3-4e55-b3cc-8ce0eee6adf8",
+      "name": "Instruction Manual Publishing",
+      "webhookId": "38e35e59-c18b-434d-ad6b-481f02a19b64",
+      "credentials": {
+        "githubApi": {
+          "id": "URuQMJtxq7LDxoqx",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "resource": "file",
+        "owner": {
+          "__rl": true,
+          "value": "sowmyanarayananSoma",
+          "mode": "name"
+        },
+        "repository": {
+          "__rl": true,
+          "value": "AI-Asissted-Workflow-Outputs",
+          "mode": "list",
+          "cachedResultName": "AI-Asissted-Workflow-Outputs",
+          "cachedResultUrl": "https://github.com/sowmyanarayananSoma/AI-Asissted-Workflow-Outputs"
+        },
+        "filePath": "outputs/Quiz.md",
+        "fileContent": "={{ $json.content[0].text }}",
+        "commitMessage": "Explanation document added"
+      },
+      "type": "n8n-nodes-base.github",
+      "typeVersion": 1.1,
+      "position": [
+        944,
+        272
+      ],
+      "id": "321f9f68-00b5-435f-a2df-f8a91a1ddf7b",
+      "name": "Quiz Publishing",
+      "webhookId": "38e35e59-c18b-434d-ad6b-481f02a19b64",
+      "credentials": {
+        "githubApi": {
+          "id": "URuQMJtxq7LDxoqx",
+          "name": "GitHub account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "pdfToText",
+        "inputType": "url",
+        "url": "https://standuply.com/How_to_Use_Slack_Effectively_in_2019_by_Standuply.pdf"
+      },
+      "type": "@custom-js/n8n-nodes-pdf-toolkit-v2.pdfToolkit",
+      "typeVersion": 1,
+      "position": [
+        400,
+        0
+      ],
+      "id": "d4f85dff-787b-4fe7-b2ff-433ff976fb19",
+      "name": "Fetch Tech Documentation",
+      "credentials": {
+        "customJsApi": {
+          "id": "uG2uT6bAmXt2cmPJ",
+          "name": "CustomJS account"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Execute workflow’": {
+      "main": [
+        [
+          {
+            "node": "Edit Fields",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Edit Fields": {
+      "main": [
+        [
+          {
+            "node": "Fetch Tech Documentation",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Explainer Doc": {
+      "main": [
+        [
+          {
+            "node": "Explainer Doc Publishing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Instruction Manual": {
+      "main": [
+        [
+          {
+            "node": "Instruction Manual Publishing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Generate Quizzes": {
+      "main": [
+        [
+          {
+            "node": "Quiz Publishing",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fetch Tech Documentation": {
+      "main": [
+        [
+          {
+            "node": "Generate Explainer Doc",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Instruction Manual",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Generate Quizzes",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "d0606446-7044-4b0e-ac4e-1826a03cfaa3",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "1bc91cd6f3406d93a79e59ee310a495eb61143118f08903473a4ea9adb749875"
+  },
+  "id": "Am65Jl5i2NC4BqDB",
+  "tags": []
+}
