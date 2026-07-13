@@ -251,6 +251,15 @@ The resulting drafts can then be reviewed, corrected, and finalized by the train
 
 ---
 
+## Generated Outputs
+
+The generated training materials are available in the [`outputs`](./outputs) folder:
+
+- [Explainer Document](./outputs/Explainer-doc.md)
+- [Instructional Manual](./outputs/Instruction-Manual.md)
+- [Quiz](./outputs/Quiz.md)
+
+---
 ## Conclusion
 
 This proof of concept demonstrates how AI can support technical training development by transforming existing source knowledge into multiple learning assets.
