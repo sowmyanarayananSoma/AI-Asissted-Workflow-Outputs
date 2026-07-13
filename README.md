@@ -2,7 +2,7 @@
 
 ## Overview
 
-This proof of concept demonstrates an automated workflow for generating training content from existing source materials.
+This proof of concept demonstrates a n8n workflow for generating training content from existing source materials.
 
 The workflow uses the following inputs:
 
