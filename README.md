@@ -22,7 +22,8 @@ The generated files are then published to GitHub.
 
 ## Workflow Diagram
 
-![AI Training Content Generation Workflow](./workflow-diagram.png)
+<img width="807" height="436" alt="image" src="https://github.com/user-attachments/assets/2a168b48-3603-4cde-9020-9d005257e1b7" />
+
 
 ---
 
