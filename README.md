@@ -255,9 +255,9 @@ The resulting drafts can then be reviewed, corrected, and finalized by the train
 
 The generated training materials are available in the [`outputs`](./outputs) folder:
 
-- [Explainer Document](./outputs/Explainer-doc.md)
-- [Instructional Manual](./outputs/Instruction-Manual.md)
-- [Quiz](./outputs/Quiz.md)
+- [Explainer Document](/outputs/Explainer-doc.md)
+- [Instructional Manual](/outputs/Instruction-Manual.md)
+- [Quiz](/outputs/Quiz.md)
 
 ---
 ## Conclusion
